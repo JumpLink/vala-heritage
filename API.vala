@@ -130,17 +130,14 @@ namespace Heritage {
 			return this.call(url);
 		}
 
-		public string[] catalog_product_list_skus () {
+		public Gee.HashSet<string> catalog_product_list_all_skus () {
 			Json.Object product_list_root_object	= this.catalog_product_list ();
 			int64 		product_list_rowcount		= product_list_root_object.get_int_member 		("ROWCOUNT");
 			Json.Object product_list_data			= product_list_root_object.get_object_member 	("DATA");
-			string[] result = new string[product_list_rowcount];
-
+			Gee.HashSet<string> result = new Gee.HashSet<string> ();
 			for (int i=0;i<product_list_rowcount;i++) {
-				result[i] = product_list_data.get_array_member ("CODE").get_string_element (i);
-				//debug (result[i]);
+				result.add ( product_list_data.get_array_member ("CODE").get_string_element (i));
 			}
-
 			return result;
 		}
 	}
