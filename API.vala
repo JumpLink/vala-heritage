@@ -2,7 +2,7 @@ using Json;
 
 namespace Heritage {
 
-	public delegate void callback_string_array(string[] array);
+	public delegate void callback_for_each_sum(string[] array, int i, int length_of_callbacks);
 
 	public class API : GLib.Object {
 
@@ -26,15 +26,15 @@ namespace Heritage {
 			return new_string;
 		}
 
-		public static void each_sum (string[] array, uint length, callback_string_array cb) {
-			int count_of_callbacks = (int) GLib.Math.round( (array.length / length) + 0.5 ); // Round up
+		public static void each_sum (string[] array, uint length, callback_for_each_sum cb) {
+			int length_of_callbacks = (int) GLib.Math.round( (array.length / length) + 0.5 ); // Round up
 
-			for (int i = 0; i < count_of_callbacks; i++) {
+			for (int i = 0; i < length_of_callbacks; i++) {
 				string[] part_array = {};
 				for (int a = 0; a < length && i*length+a < array.length ; a++) {
 					part_array += array[i*length+a];
 				}
-				cb (part_array);
+				cb (part_array, i, length_of_callbacks);
 			}
 		}
 
